@@ -1,27 +1,43 @@
-import React from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useSupabaseAuth } from './hooks/useSupabaseAuth';
-import { supabase } from './lib/supabase';
-import './App.css';
+import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useSupabaseAuth } from "./hooks/useSupabaseAuth";
+import { supabase } from "./lib/supabase";
+import "./App.css";
 
 function App() {
   const { loginWithRedirect, logout } = useAuth0();
-  const { user, supabaseUser, isAuthenticated, isLoading, error } = useSupabaseAuth();
-  const [status, setStatus] = React.useState('checking...');
+  const { user, supabaseUser, isAuthenticated, isLoading, error } =
+    useSupabaseAuth();
+  const [status, setStatus] = React.useState("checking...");
 
   React.useEffect(() => {
     async function checkConnection() {
       try {
-        const { data, error } = await supabase.from('users').select('count');
+        // Simple connection test - just check if Supabase is reachable
+        const { error } = await supabase.from('users').select('count').limit(0);
+        if (error && error.message.includes('does not exist')) {
+          setStatus('connected (setup needed)');
+          return;
+        }
         if (error) throw error;
         setStatus('connected');
       } catch (error) {
         setStatus('connection failed');
-        console.error(error);
+        console.error('Connection error:', error);
       }
     }
     checkConnection();
   }, []);
+
+  // Redirect to frontend dashboard after successful authentication
+  React.useEffect(() => {
+    if (isAuthenticated && user && supabaseUser) {
+      // Wait 3 seconds to show confirmation, then redirect
+      setTimeout(() => {
+        window.location.href = "http://localhost:3000/dashboard";
+      }, 3000);
+    }
+  }, [isAuthenticated, user, supabaseUser]);
 
   if (isLoading) return <div className="loading">Loading...</div>;
 
@@ -43,52 +59,38 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Auth0 + Supabase Demo</h1>
-        
+
         {!isAuthenticated ? (
           <div className="login-section">
             <h2>Welcome!</h2>
             <p>Please log in to access your profile and database.</p>
-            <button 
-              className="login-btn"
-              onClick={() => loginWithRedirect()}
-            >
+            <button className="login-btn" onClick={() => loginWithRedirect()}>
               Log In with Auth0
             </button>
           </div>
         ) : (
           <div className="profile-section">
-            <h2>Welcome back, {user.name}!</h2>
-            <div className="user-info">
-              <img 
-                src={user.picture} 
-                alt="Profile" 
-                className="profile-picture"
-              />
-              <div className="user-details">
-                <h3>Auth0 Data:</h3>
-                <p><strong>Name:</strong> {user.name}</p>
-                <p><strong>Email:</strong> {user.email}</p>
-                <p><strong>Email Verified:</strong> {user.email_verified ? '✅' : '❌'}</p>
-                
-                {supabaseUser && (
-                  <>
-                    <h3>Supabase Data:</h3>
-                    <p><strong>Database ID:</strong> {supabaseUser.id}</p>
-                    <p><strong>Auth0 ID:</strong> {supabaseUser.auth0_id}</p>
-                    <p><strong>Last Updated:</strong> {new Date(supabaseUser.updated_at).toLocaleString()}</p>
-                    <p><strong>Status:</strong> <span className="success">✅ Synced with Supabase</span></p>
-                  </>
-                )}
+            <div className="success-message">
+              <h2>🎉 Login Successful!</h2>
+              <p>
+                Welcome back, <strong>{user.name}</strong>!
+              </p>
+              <p>✅ Authentication complete</p>
+              <p>✅ User data synced with database</p>
+              <p className="redirect-message">
+                🚀 Redirecting to dashboard in 3 seconds...
+              </p>
+              <div className="user-preview">
+                <img
+                  src={user.picture}
+                  alt="Profile"
+                  className="profile-picture-small"
+                />
+                <p>
+                  <strong>Email:</strong> {user.email}
+                </p>
               </div>
             </div>
-            <button 
-              className="logout-btn"
-              onClick={() => logout({ 
-                logoutParams: { returnTo: window.location.origin }
-              })}
-            >
-              Log Out
-            </button>
           </div>
         )}
         <p>Connection status: {status}</p>

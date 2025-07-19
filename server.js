@@ -54,11 +54,11 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static files from React app build
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "build")));
 
 // Serve React app for any non-API routes
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 // Health check endpoint
@@ -241,7 +241,7 @@ app.post("/api/auth/sync", async (req, res) => {
 
 // Catch-all handler: send back React's index.html file for any non-API routes
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 // Error handling middleware

@@ -14,9 +14,9 @@
     "react-scripts": "5.0.1"
   },
   "scripts": {
-    "start": "set PORT=3000 && react-scripts start",
+    "start": "set PORT=3001 && nodemon server.js",
     "server": "set PORT=3001 && nodemon server.js",
-    "dev": "concurrently --kill-others \"npm run server\" \"npm run client\"",
+    "dev": "set PORT=3001 && nodemon server.js",
     "client": "set PORT=3000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test"
