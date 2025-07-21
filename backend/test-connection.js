@@ -1,7 +1,18 @@
 const { createClient } = require('@supabase/supabase-js')
 
-const supabaseUrl = 'https://xoodnuckjmlmejeyyneg.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhvb2RudWNram1sbWVqZXl5bmVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MTQwNTQsImV4cCI6MjA2ODQ5MDA1NH0.tu12RS2PsuKvewIEaCXI2eMyLMOYuZi8gSBe6nIPN2s'
+// Load environment variables
+require('dotenv').config({ path: './env' })
+
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || 'https://xoodnuckjmlmejeyyneg.supabase.co'
+const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY
+
+// Validate environment variables
+if (!supabaseKey || supabaseKey.includes('example')) {
+  console.warn('⚠️  Missing or invalid Supabase anon key')
+  console.warn('   Set REACT_APP_SUPABASE_ANON_KEY in your environment file')
+  console.log('⚠️  Skipping database connection test - using development mode')
+  process.exit(0)
+}
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 

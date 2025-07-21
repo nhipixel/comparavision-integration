@@ -2,23 +2,11 @@
 
 > **Vision Model Performance Comparison Platform - Empowering Sustainable AI Decisions**
 
-ComparaVision is a platform that empowers users to compare the performance, speed, memory usage, and other key metrics of two vision models side-by-side. It's designed for enterprises and businesses that need to make data-driven decisions about deploying visual language models (VLMs) and other computer vision solutions.
+ComparaVision is a platform that empowers users to compare the performance, speed, memory usage, and other key metrics of two vision models side-by-side. It's designed for enterprises and businesses that need to make data-driven decisions about deploying vision language models (VLMs) and other computer vision solutions.
 
 ## 🌱 Green AI: Sustainability at the Core
 
 A core mission of ComparaVision is to make AI adoption more sustainable. Every model comparison includes detailed carbon footprint analysis, energy consumption metrics, and a "Green Score" to help users understand the environmental impact of their AI choices. By surfacing these insights, we enable organizations to choose not just the most accurate or cost-effective model, but also the most eco-friendly—helping reduce the carbon footprint of AI and contribute to a healthier planet.
-
-## 🎯 What We Accomplished
-
-We're proud to have created a unified interface for vision model comparison—something that's rare in the current market, especially for VLMs. Our platform not only benchmarks models for accuracy and speed, but also provides actionable insights on cost efficiency and, most importantly, sustainability.
-
-## 📚 What We Learned
-
-We deepened our understanding of vision model evaluation, real-time data handling, and the importance of sustainability in AI. We also learned how to rapidly prototype and iterate on a full-stack product.
-
-## 🚀 What's Next
-
-Next, we plan to expand support for more model types, add advanced analytics, and integrate with additional green AI metrics. We aim to make ComparaVision the go-to tool for enterprises seeking both performance and sustainability in their AI deployments.
 
 ## 🎬 Demo Video
 

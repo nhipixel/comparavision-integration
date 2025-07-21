@@ -1,21 +1,37 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Production Supabase project URL and anon key
-const supabaseUrl = 'https://xoodnuckjmlmejeyyneg.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhvb2RudWNram1sbWVqZXl5bmVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MTQwNTQsImV4cCI6MjA2ODQ5MDA1NH0.tu12RS2PsuKvewIEaCXI2eMyLMOYuZi8gSBe6nIPN2s'
+// Get Supabase credentials from environment variables
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || 'https://xoodnuckjmlmejeyyneg.supabase.co'
+const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY
 
-// Add connection verification
-export const supabase = createClient(supabaseUrl, supabaseKey)
+// Validate environment variables
+if (!supabaseKey) {
+  console.warn('⚠️  Missing Supabase anon key - using development mode')
+  console.warn('   Set REACT_APP_SUPABASE_ANON_KEY in your environment file for full functionality')
+}
+
+// Create Supabase client only if key is available
+let supabase = null
+if (supabaseKey && !supabaseKey.includes('example')) {
+  supabase = createClient(supabaseUrl, supabaseKey)
+} else {
+  console.log("⚠️  Supabase client not initialized - using development mode")
+}
 
 // Test connection function
 export const testConnection = async () => {
+  if (!supabase) {
+    console.log('⚠️  Skipping database connection test - using development mode')
+    return false
+  }
+  
   try {
     const { data, error } = await supabase.from('users').select('count')
     if (error) throw error
-    console.log('Supabase connection successful!')
+    console.log('✅ Supabase connection successful!')
     return true
   } catch (error) {
-    console.error('Supabase connection error:', error.message)
+    console.error('❌ Supabase connection error:', error.message)
     return false
   }
 }
@@ -23,13 +39,18 @@ export const testConnection = async () => {
 // Verify connection on init
 testConnection()
   .then(isConnected => {
-    if (!isConnected) {
+    if (!isConnected && supabase) {
       console.error('Failed to connect to Supabase. Check your configuration.')
     }
   })
 
 // Helper function to sync Auth0 user with Supabase
 export const syncUserWithSupabase = async (auth0User) => {
+  if (!supabase) {
+    console.log('⚠️  Supabase not available - skipping user sync')
+    return null
+  }
+  
   try {
     const { data, error } = await supabase
       .from('users')
@@ -57,6 +78,11 @@ export const syncUserWithSupabase = async (auth0User) => {
 
 // Helper function to get user from Supabase by Auth0 ID
 export const getUserFromSupabase = async (auth0Id) => {
+  if (!supabase) {
+    console.log('⚠️  Supabase not available - skipping user fetch')
+    return null
+  }
+  
   try {
     const { data, error } = await supabase
       .from('users')
@@ -75,3 +101,6 @@ export const getUserFromSupabase = async (auth0Id) => {
     return null
   }
 }
+
+// Export supabase client for use in other modules
+export { supabase }
