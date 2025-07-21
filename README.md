@@ -1,16 +1,20 @@
-# ComparaVision Integration
+# ComparaVision (Integration - Beta)
 
 > **Vision Model Performance Comparison Platform - Empowering Sustainable AI Decisions**
 
-ComparaVision is a platform that empowers users to compare the performance, speed, memory usage, and other key metrics of two vision models side-by-side. It's designed for enterprises and businesses that need to make data-driven decisions about deploying vision language models (VLMs) and other computer vision solutions.
+Contributors: Igo Domingo, Nhi Ngo, Varun Patel, McCauley Armishaw
+
+ComparaVision is a platform that empowers users to compare the performance, speed, memory usage, and other key metrics of vision models. It's designed for enterprises and businesses that need to make data-driven decisions about deploying vision language models (VLMs) and other computer vision solutions.
+
+
+## 🎬 Demo Video
+
+[![Watch the demo](https://i.imgur.com/8yeYfvn.jpeg)](https://youtu.be/4153oSQKyLQ)
+
 
 ## 🌱 Green AI: Sustainability at the Core
 
 A core mission of ComparaVision is to make AI adoption more sustainable. Every model comparison includes detailed carbon footprint analysis, energy consumption metrics, and a "Green Score" to help users understand the environmental impact of their AI choices. By surfacing these insights, we enable organizations to choose not just the most accurate or cost-effective model, but also the most eco-friendly—helping reduce the carbon footprint of AI and contribute to a healthier planet.
-
-## 🎬 Demo Video
-
-> **[Demo Video]** - Watch ComparaVision in action as we demonstrate model comparison, real-time metrics, and sustainability analysis.
 
 ---
 
@@ -263,25 +267,6 @@ docker-compose logs -f
 npm run clean && npm run install:all
 ```
 
-
-## 📞 Support & Resources
-
-- **GitHub Repository**: [HackThe6ix Organization](https://github.com/orgs/HacktheSix/repositories)
-- **RunPod Dashboard**: https://runpod.io
-- **Supabase Console**: https://supabase.com/dashboard
-- **Docker Hub**: For container registry
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-
 ---
 
-
-*Empowering sustainable AI decisions through comprehensive vision model comparison.*
 
