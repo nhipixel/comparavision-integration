@@ -31,9 +31,6 @@ npm run install:all
 # Start development servers
 npm run dev
 
-# Access the application
-# Frontend: http://localhost:3000
-# Backend: http://localhost:3001
 ```
 
 ## 🔧 Environment Setup
