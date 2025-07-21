@@ -1,4 +1,4 @@
-# ComparaVision (Integration - Beta)
+# ComparaVision (Beta Integration)
 
 > **Vision Model Performance Comparison Platform - Empowering Sustainable AI Decisions**
 
