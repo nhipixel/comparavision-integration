@@ -6,38 +6,26 @@ const path = require("path");
 const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
-const port = process.env.PORT || 3001; // Changed from 3000 to 3001
+const port = process.env.PORT || 3001;
 
-// Enhanced error handling for Supabase connection
-const supabaseUrl =
-  process.env.REACT_APP_SUPABASE_URL || "http://localhost:54321";
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || "http://localhost:54321";
 const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
 if (!supabaseKey) {
   console.warn("⚠️  Missing Supabase anon key - running in development mode");
-  console.warn("   Set REACT_APP_SUPABASE_ANON_KEY in your environment file for full functionality");
 }
 
-// Create Supabase client only if we have valid credentials
 let supabase = null;
 if (supabaseKey && !supabaseKey.includes('example')) {
   supabase = createClient(supabaseUrl, supabaseKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-    db: {
-      schema: "public",
-    },
-    global: {
-      fetch: fetch,
-    },
+    auth: { autoRefreshToken: false, persistSession: false },
+    db: { schema: "public" },
+    global: { fetch: fetch },
   });
 } else {
   console.log("⚠️  Supabase client not initialized - using development mode");
 }
 
-// Test connection function with retry
 const testConnection = async (retries = 3) => {
   if (!supabase || !supabaseKey || supabaseKey.includes('example')) {
     console.log("⚠️  Skipping database connection test - using development mode");
@@ -46,9 +34,7 @@ const testConnection = async (retries = 3) => {
   
   for (let i = 0; i < retries; i++) {
     try {
-      const { data, error } = await supabase
-        .from("organizations")
-        .select("count");
+      const { data, error } = await supabase.from("organizations").select("count");
       if (error) throw error;
       console.log("✅ Successfully connected to Supabase!");
       return true;
@@ -63,9 +49,17 @@ const testConnection = async (retries = 3) => {
   }
 };
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  credentials: true,
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+};
+
+app.use(cors(corsOptions));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Serve static files from React app build
 app.use(express.static(path.join(__dirname, "build")));
