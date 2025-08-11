@@ -10,6 +10,7 @@ ComparaVision is a platform that empowers users to compare the performance, spee
 ## 🎬 Demo Video
 
 [![Watch the demo](https://i.imgur.com/8yeYfvn.jpeg)]([https://youtu.be/4153oSQKyLQ](https://youtu.be/R6bdqgad6vA))
+<img width="2927" height="1813" alt="image" src="https://github.com/user-attachments/assets/1569ddc9-4f3b-491c-9b1b-4dc899d296b3" />
 
 
 ## 🌱 Green AI: Sustainability at the Core
